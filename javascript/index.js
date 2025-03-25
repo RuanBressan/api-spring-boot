@@ -108,3 +108,30 @@ document.getElementById('updateDataBtn').addEventListener('click', function() {
         alert('Por favor, preencha todos os campos antes de atualizar');
     } 
 });
+
+document.getElementById('deleteDataBtn').addEventListener('click', function() {
+    const produtoId = document.getElementById('idProdutoDisplaydel').value;
+
+    if(produtoId) {
+        if (confirm(`Tem certeza que deseja excluir o produto com ID ${produtoId}?`)) {
+            fetch(`${apiUrl}/${produtoId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if(!response.ok) {
+                    throw new Error(`Erro ao deletar produto: ${response.status}`);
+                }
+
+                alert('Produto deletado com suceeso')
+            })
+            .catch(error => {
+                alert(`Erro: ${error.message}`);
+            })
+        }
+    } else {
+        alert('Por favor, insira um valor de ID de produto válido para deletar');
+    }
+})
